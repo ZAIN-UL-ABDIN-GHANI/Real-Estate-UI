@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useDarkMode } from "../components/DarkModeContext";
@@ -23,6 +23,7 @@ import { Link } from "react-scroll";
 
 function Footer() {
   const { darkMode, toggleDarkMode } = useDarkMode();
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     AOS.init({
@@ -31,6 +32,15 @@ function Footer() {
       easing: "ease-in-sine",
       delay: 100,
     });
+
+    const handleScroll = () => {
+      const homeHeight = document.getElementById("home")?.offsetHeight || 0;
+      const scrollY = window.scrollY;
+      setIsVisible(scrollY > homeHeight / 1);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -40,7 +50,7 @@ function Footer() {
           darkMode ? "dark bg-black" : "light bg-gray-800"
         } w-full px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10`}
       >
-        {/* About Us Section */}
+        {/* About Us */}
         <div className="flex flex-col gap-3">
           <h1 className="text-white text-lg md:text-2xl font-semibold">
             About Us
@@ -50,8 +60,6 @@ function Footer() {
             placerat! Odit aliquam maiores dignissim perspiciatis cupiditate
             dolorum sit repellendus nulla?
           </p>
-
-          {/* Social Media Icons */}
           <div className="flex gap-2 mt-2">
             <div className="p-2 rounded-lg bg-white hover:bg-[#1877F2] hover:text-white cursor-pointer transform hover:scale-110 transition-all duration-300">
               <FaFacebook size={14} />
@@ -66,48 +74,41 @@ function Footer() {
               <FaYoutube size={14} />
             </div>
           </div>
-
           <p className="text-white text-xs mt-3">
-            Copyright Real Estate, All Rights Reserved
+            © Real Estate. All Rights Reserved.
           </p>
         </div>
 
-        {/* Contact Us Section */}
+        {/* Contact Us */}
         <div className="flex flex-col gap-3">
           <h1 className="text-white text-lg md:text-2xl font-semibold">
             Contact Us
           </h1>
-
           <div className="flex gap-2 items-start">
-            <FaBuilding size={18} className="text-white mt-1 flex-shrink-0" />
+            <FaBuilding className="text-white mt-1 flex-shrink-0" size={18} />
             <p className="text-slate-200 text-sm leading-relaxed">
               10845 Griffith Peak Dr, Las Vegas, NV 89135
             </p>
           </div>
-
           <div className="flex gap-2 items-center">
-            <FaMobile size={18} className="text-white flex-shrink-0" />
+            <FaMobile className="text-white flex-shrink-0" size={18} />
             <p className="text-slate-200 text-sm">+91 879 098 8001</p>
           </div>
-
           <div className="flex gap-2 items-center">
-            <FaFax size={18} className="text-white flex-shrink-0" />
+            <FaFax className="text-white flex-shrink-0" size={18} />
             <p className="text-slate-200 text-sm">+91 123 678 0912</p>
           </div>
-
           <div className="flex gap-2 items-center">
-            <IoMdMail size={18} className="text-white flex-shrink-0" />
+            <IoMdMail className="text-white flex-shrink-0" size={18} />
             <p className="text-slate-200 text-sm">office52@gmail.com</p>
           </div>
         </div>
 
-        {/* Latest Properties Section */}
+        {/* Latest Properties */}
         <div className="flex flex-col gap-3">
           <h1 className="text-white text-lg md:text-2xl font-semibold">
             Latest Properties
           </h1>
-
-          {/* Property 1 */}
           <div className="flex items-center gap-3">
             <img
               src={prop7}
@@ -121,8 +122,6 @@ function Footer() {
               <p className="text-slate-300 text-xs">$ 278.98</p>
             </div>
           </div>
-
-          {/* Property 2 */}
           <div className="flex items-center gap-3">
             <img
               src={prop8}
@@ -140,21 +139,23 @@ function Footer() {
       </footer>
 
       {/* Scroll to Top Button */}
-      <Link to="home" spy={true} smooth={true} offset={-100}>
-        <button
-          className="fixed bottom-4 right-6 p-4 bg-red-600 text-white rounded-full shadow-lg  dark:hover:bg-white dark:hover:text-black hover:bg-black lg:bottom-12 transition-colors duration-300 z-50"
-          aria-label="Scroll to top"
-        >
-          <FaArrowUp size={20} />
-        </button>
-      </Link>
+      {isVisible && (
+        <Link to="home" spy={true} smooth={true} offset={-100}>
+          <button
+            className="fixed bottom-4 right-6 p-4 bg-red-600 text-white rounded-full shadow-lg dark:hover:bg-white dark:hover:text-black hover:bg-black lg:bottom-12 transition-colors duration-300 z-50"
+            aria-label="Scroll to top"
+          >
+            <FaArrowUp size={20} />
+          </button>
+        </Link>
+      )}
 
-      {/* Dark Mode Toggle Button */}
+      {/* Dark Mode Toggle */}
       <div className="fixed top-20 right-6 z-50">
         <button
           onClick={toggleDarkMode}
           className={`flex items-center p-3 rounded-full duration-300 transition-colors shadow-md ${
-            darkMode ? "bg-[#F9AD3A]" : "bg-gray-600"
+            darkMode ? "bg-red-500" : "bg-red-600"
           }`}
           aria-label="Toggle Dark Mode"
         >
