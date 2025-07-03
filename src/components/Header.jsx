@@ -147,7 +147,7 @@ function Header() {
       {/* Overlay to close menu when clicking outside */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-800 z-10 md:hidden"
+          className="fixed inset-0 bg-black bg-opacity-80 z-10 md:hidden"
           onClick={closeMenu}
         />
       )}
