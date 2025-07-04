@@ -149,7 +149,7 @@ function Properties() {
                         darkMode ? "text-gray-300" : "text-gray-600"
                       }`}
                     >
-                      {item.beds}
+                      {item.baths}
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
@@ -161,7 +161,7 @@ function Properties() {
                         darkMode ? "text-gray-300" : "text-gray-600"
                       }`}
                     >
-                      {item.baths}
+                      {item.beds}
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
